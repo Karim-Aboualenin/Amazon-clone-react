@@ -1,0 +1,94 @@
+.prime-container {
+  width: 60%;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+header h1 {
+  color: #007185;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.prime-benefits {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.benefit {
+  width: 30%;
+}
+
+.benefit h3 {
+  color: #007185;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.benefit p {
+  font-size: 14px;
+  color: #333;
+}
+
+.payment-section {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+
+.payment-section h2 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.payment-option, .credit-card {
+  margin-bottom: 20px;
+}
+
+.payment-option h3, .credit-card h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.payment-option p, .credit-card p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+a {
+  color: #007185;
+  text-decoration: none;
+}
+
+.cancel-button {
+  background-color: transparent;
+  border: none;
+  color: #007185;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 10px 0;
+}
+.credit-cards{
+  gap: 40px;
+  width: 40px;
+}
+.credit-cards {
+  margin-top: 20px;
+
+}
+.credit-cards img {
+  width: 40px;
+  margin-right: 10px;
+}
