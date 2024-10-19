@@ -47,7 +47,6 @@ const Page = () => {
     navigate("/Primepage");  
   };
 
-  // This function will handle showing 3 items at a time
   const getDisplayedContent = () => {
     return contentData
       .slice(currentIndex, currentIndex + 3)
@@ -57,7 +56,6 @@ const Page = () => {
   return (
     <div className="prime-page">
 
-      {/* Header Section */}
       <div className="header-section">
         <h1>Shop, save, and play in a whole new way</h1>
         <p>Prime is just EGP 29.00/month. Cancel anytime.</p>
@@ -65,7 +63,6 @@ const Page = () => {
         <button className="join-prime-btn" onClick={handleGetStarted}>Join Amazon Prime</button>
       </div>
 
-      {/* Carousel Section */}
       <div className="content-carousel">
         <h2>Check Out What's Included</h2>
 
