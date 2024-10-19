@@ -1,55 +1,55 @@
 import React, { useEffect, useState } from 'react';
 import './BuyAgain.css';
 
-const getStars = (rating) => {
-  const fullStars = Math.floor(rating); 
-  const hasHalfStar = rating % 1 >= 0.5; 
-  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); 
+const Product = ({ product }) => {
+  const [quantity, setQuantity] = useState(() => {
+    const storedCart = JSON.parse(localStorage.getItem('cart')) || {};
+    return storedCart[product.id] ? storedCart[product.id].quantity : 0;
+  });
 
-  return (
-    <>
-      {'★'.repeat(fullStars)}
-      {hasHalfStar && '☆'}
-      {'☆'.repeat(emptyStars)}
-    </>
-  );
-};
+  const updateLocalStorage = (newQuantity) => {
+    const currentCart = JSON.parse(localStorage.getItem('cart')) || {};
 
-const Product = ({ product, addToCart, cartItem }) => {
-  const [quantity, setQuantity] = useState(cartItem ? cartItem.quantity : 0);
-
-  useEffect(() => {
-    if (cartItem) {
-      setQuantity(cartItem.quantity);
+    if (newQuantity > 0) {
+      currentCart[product.id] = {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        quantity: newQuantity
+      };
+    } else {
+      delete currentCart[product.id];
     }
-  }, [cartItem]);
 
-  const handleAddToCart = () => {
+    localStorage.setItem('cart', JSON.stringify(currentCart));
+  };
+
+  const addToCart = () => {
     setQuantity(1);
-    addToCart(product, 1);
+    updateLocalStorage(1);
   };
 
   const increaseQuantity = () => {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
-    addToCart(product, newQuantity);
+    updateLocalStorage(newQuantity);
   };
 
   const decreaseQuantity = () => {
     const newQuantity = quantity > 1 ? quantity - 1 : 0;
     setQuantity(newQuantity);
-    addToCart(product, newQuantity);
+    updateLocalStorage(newQuantity);
   };
 
   return (
     <div className="product-item">
       <img src={product.image} alt={product.title} />
       <p className="product-name">{product.title}</p>
-      <p className="product-rating">{getStars(product.rating.rate)}</p> 
+      <p className="product-rating">★ ★ ★ ★ ☆</p>
       <p className="product-price">${product.price}</p>
 
       {quantity === 0 ? (
-        <button className="add-to-cart" onClick={handleAddToCart}>
+        <button className="add-to-cart" onClick={addToCart}>
           Add to cart
         </button>
       ) : (
@@ -69,7 +69,6 @@ const Product = ({ product, addToCart, cartItem }) => {
 
 const BuyAgain = () => {
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState({}); 
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
@@ -78,46 +77,15 @@ const BuyAgain = () => {
       .catch((error) => console.error('Error fetching products:', error));
   }, []);
 
-  const addToCart = (product, quantity) => {
-    setCart((prevCart) => {
-      const newCart = { ...prevCart };
-      if (quantity > 0) {
-        newCart[product.id] = { ...product, quantity };
-      } else {
-        delete newCart[product.id];
-      }
-      return newCart;
-    });
-  };
-
   return (
     <div className="buy-again-container">
       <h2>Discover</h2>
 
       <h3>Best sellers in Health & Household Products</h3>
       <div className="product-list">
-        {products.map((product) => (
-          <Product
-            key={product.id}
-            product={product}
-            cartItem={cart[product.id]}
-            addToCart={addToCart}
-          />
+        {products.map((product, index) => (
+          <Product key={index} product={product} />
         ))}
-      </div>
-
-      <h3>Cart</h3>
-      <div className="cart-items">
-        {Object.values(cart).length > 0 ? (
-          Object.values(cart).map((item) => (
-            <div key={item.id} className="cart-item">
-              <p>{item.title} - Quantity: {item.quantity}</p>
-              <p>Price: ${item.price * item.quantity}</p>
-            </div>
-          ))
-        ) : (
-          <p>Your cart is empty.</p>
-        )}
       </div>
     </div>
   );
